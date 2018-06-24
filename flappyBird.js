@@ -21,6 +21,14 @@ let pSouthHeight = pipeNorth.height+gap;
 let bX = 10; //x position of bird
 let bY = 150; //y position of bird
 
+let gravity = 1;
+
+//When any keyboard key is pressed down, bird goes up
+document.addEventListener("keydown", moveUp);
+function moveUp(){
+    bY -=20;
+}
+
 //Draw Images
 function draw(){
     ctx.drawImage(bg,0,0); //draws the background
@@ -31,6 +39,11 @@ function draw(){
     ctx.drawImage(fg, 0, cvs.height - fg.height); //draws the fallground
 
     ctx.drawImage(bird, bX, bY); //draws the bird
+
+    //Bird continuously falls downwards due to gravity
+    bY += gravity
+
+    requestAnimationFrame(draw) //This repeatedly calls the draw function
 }
 
 draw(); //calls the draw function
