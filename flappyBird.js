@@ -15,13 +15,15 @@ fg.src = "images/fallground.png";
 pipeNorth.src = "images/pipeNorth.png";
 pipeSouth.src = "images/pipeSouth.png";
 
-const gap = 90   ; //space between north and south pipes
+const gap = 90; //space between north and south pipes
 let pSouthHeight = pipeNorth.height+gap;
 
 let bX = 10; //x position of bird
 let bY = 150; //y position of bird
 
 let gravity = 1;
+
+let score = 0;
 
 //When any keyboard key is pressed down, bird goes up
 document.addEventListener("keydown", moveUp);
@@ -49,7 +51,7 @@ function draw(){
         pipe[i].x--; //move pipes to the left
 
         //To draw new pipes
-        if (pipe[i].x === 110){
+        if (pipe[i].x === 90){
             pipe.push({ //push new pipe object to the pipe array
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height //random position
@@ -62,17 +64,26 @@ function draw(){
             || bY +bird.height >= cvs.height - fg.height){
                 location.reload();
         }
+        //Increment score if bird crosses pipe
+        if (pipe[i].x == 5){
+                score++
+        }
     }    
- 
-
-    ctx.drawImage(fg, 0, cvs.height - fg.height); //draws the fallground
-
-    ctx.drawImage(bird, bX, bY); //draws the bird
-
-    //Bird continuously falls downwards due to gravity
-    bY += gravity
-
-    requestAnimationFrame(draw) //This repeatedly calls the draw function
-}
+     
+    
+        ctx.drawImage(fg, 0, cvs.height - fg.height); //draws the fallground
+    
+        ctx.drawImage(bird, bX, bY); //draws the bird
+    
+        //Bird continuously falls downwards due to gravity
+        bY += gravity
+    
+        //Insert score on canvas
+        ctx.fillStyle = "#000";
+        ctx.font = "20px Verdana";
+        ctx.fillText("Score : "+score, 10, cvs.height-20);
+    
+        requestAnimationFrame(draw) //This repeatedly calls the draw function
+    }
 
 draw(); //calls the draw function
