@@ -15,18 +15,18 @@ fg.src = "images/fallground.png";
 pipeNorth.src = "images/pipeNorth.png";
 pipeSouth.src = "images/pipeSouth.png";
 
-const gap = 85; //space between north and south pipes
+const gap = 90   ; //space between north and south pipes
 let pSouthHeight = pipeNorth.height+gap;
 
 let bX = 10; //x position of bird
 let bY = 150; //y position of bird
 
-let gravity = 1.5;
+let gravity = 1;
 
 //When any keyboard key is pressed down, bird goes up
 document.addEventListener("keydown", moveUp);
 function moveUp(){
-    bY -=25;
+    bY -=20    ;
 }
 
 //Declare pipe coordinates
@@ -49,11 +49,18 @@ function draw(){
         pipe[i].x--; //move pipes to the left
 
         //To draw new pipes
-        if (pipe[i].x === 125){
+        if (pipe[i].x === 110){
             pipe.push({ //push new pipe object to the pipe array
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height) - pipeNorth.height //random position
             })
+        }
+
+        //Detect collision and reload the page if there's one
+        if(bX + bird.width >= pipe[i].x && bX <= pipe[i].x + pipeNorth.width 
+            && (bY <= pipe[i].y + pipeNorth.height || bY+bird.height >= pipe[i].y+pSouthHeight) 
+            || bY +bird.height >= cvs.height - fg.height){
+                location.reload();
         }
     }    
  
