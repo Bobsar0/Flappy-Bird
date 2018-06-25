@@ -25,10 +25,17 @@ let gravity = 1;
 
 let score = 0;
 
+//Load audio files
+let flySound = new Audio();
+flySound.src = "sounds/fly.mp3"
+let scoreSound = new Audio();
+scoreSound.src = "sounds/score.mp3"
+
 //When any keyboard key is pressed down, bird goes up
 document.addEventListener("keydown", moveUp);
 function moveUp(){
-    bY -=20    ;
+    bY -=20;
+    flySound.play();
 }
 
 //Declare pipe coordinates
@@ -64,9 +71,10 @@ function draw(){
             || bY +bird.height >= cvs.height - fg.height){
                 location.reload();
         }
-        //Increment score if bird crosses pipe
+        //Increment score and play sound if bird crosses pipe
         if (pipe[i].x == 5){
                 score++
+                scoreSound.play()
         }
     }    
      
